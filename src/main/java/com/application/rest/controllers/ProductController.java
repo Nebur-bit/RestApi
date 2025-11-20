@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -37,6 +38,17 @@ public class ProductController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping
+    public ResponseEntity<List<Product>> filterByPrice(@RequestParam BigDecimal minPrice,
+                                           @RequestParam BigDecimal maxPrice){
+
+        List<Product> products = productService.findByPriceRange(minPrice, maxPrice);
+
+        return ResponseEntity.ok(products);
+
+    }
+
 
     @GetMapping("/findAll")
     public ResponseEntity<?> findAll() {
